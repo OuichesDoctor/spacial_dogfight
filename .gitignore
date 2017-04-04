@@ -29,5 +29,6 @@ sysinfo.txt
 *.unitypackage
 *.pdb*
 *.mdb*
-**/obj/Debug/*!.dll
-**/obj/Debug/*!.exe
+**/obj/Debug/*
+**/obj/Debug/!*.exe
+**/obj/Debug/!*.dll
