@@ -7,6 +7,7 @@ public class ShipDriving : MonoBehaviour {
     public float moveSpeed = 5f;
     public float rotationSpeed = 2f;
     public bool useInertie = false;
+    public Camera shipCamera;
 
     private Vector2 _directionThrust;
     private Vector2 _directionLook;
@@ -14,6 +15,8 @@ public class ShipDriving : MonoBehaviour {
     private Rigidbody2D _rb2d;
 
 	void Start () {
+        CameraManager.Instance.closeCamera = shipCamera;
+        CameraManager.Instance.shipControl = this;
         _rb2d = GetComponent<Rigidbody2D>();
 	}
 	

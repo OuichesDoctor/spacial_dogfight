@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour {
     private Rigidbody2D _rb2D;
 
 	void Start () {
+        CameraManager.Instance.playerControl = this;
         _rb2D = GetComponent<Rigidbody2D>();
 	}
 	

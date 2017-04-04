@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour {
 
+    public static CameraManager Instance { get; private set; }
+
     public Camera distantCamera;
     public Camera closeCamera;
 
     public ShipDriving shipControl;
     public PlayerControl playerControl;
 
-	void Update () {
+    public void Start() {
+        if (Instance == null)
+            Instance = this;
+        else
+            DestroyImmediate(this);
+    }
+
+    private void OnEnable() {
+        distantCamera = Camera.main;
+    }
+
+    void Update () {
         if (Input.GetButtonDown("Fire1")) {
             if (distantCamera.enabled) {
                 distantCamera.enabled = false;
