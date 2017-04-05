@@ -25,7 +25,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-*.pdb*
 *.mdb*
 **/obj/Debug/*
 **/obj/Debug/!*.exe
