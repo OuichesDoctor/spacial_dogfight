@@ -28,8 +28,8 @@ namespace GameServer {
         public ServerStatus Status { get; private set; }
 
         protected int _listenPort;
-        protected UdpClient _listener;
         protected IPEndPoint _endPoint;
+        protected UdpClient _listener;
         protected Dictionary<string, PlayerSession> _playerList;
         protected DateTime _lastUpdate;
 
@@ -107,6 +107,7 @@ namespace GameServer {
         protected abstract void ServerUpdate();
 
         protected void ProcessReceive(UdpReceiveResult result) {
+            Console.WriteLine("Process Receive");
             var remoteEndPoint = result.RemoteEndPoint;
 
             byte[] hash = new SHA256CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(remoteEndPoint.ToString()));
@@ -114,6 +115,7 @@ namespace GameServer {
 
             PlayerSession player;
             if(!_playerList.ContainsKey(hashString)) {
+                Console.WriteLine("New Player");
                 lock(_playerList) {
                     // New player
                     player = CreatePlayerSession(remoteEndPoint);
@@ -121,6 +123,7 @@ namespace GameServer {
                 }
             }
             else {
+                Console.WriteLine("Old Player");
                 // Already registered player
                 player = _playerList[hashString];
                 player.MarkActivity();

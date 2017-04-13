@@ -32,9 +32,6 @@ namespace MyGameServer {
                         Console.WriteLine("BROADCAST : " + positionUpdate.DebugString());
                         var sendBuffer = positionUpdate.BuildUpdate(player.Value);
                         BroadCastData(sendBuffer);
-
-                        ((MyPlayerSession)player.Value).characterState.x = (float)random.NextDouble();
-                        ((MyPlayerSession)player.Value).characterState.y = (float)random.NextDouble();
                     }
                 }
             }

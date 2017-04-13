@@ -47,7 +47,17 @@ namespace GameProtocol {
         public int Code { get; protected set; }
         public Message Data { get; protected set; }
 
-        public abstract byte[] BuildCommand();
+        public byte[] BuildCommand() {
+            var dataBytes = Data.ReadFields();
+            var byteCount = 2 + dataBytes.Length;
+            var resultBytes = new byte[byteCount];
+            resultBytes[0] = (byte)Category;
+            resultBytes[1] = (byte)Code;
+            Buffer.BlockCopy(dataBytes, 0, resultBytes, 2, dataBytes.Length);
+
+            return resultBytes;
+        }
+
         public abstract Update ProcessCommand(PlayerSession player);
         public abstract string DebugString();
     }

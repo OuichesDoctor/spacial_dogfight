@@ -48,7 +48,6 @@ namespace GameProtocol {
         public int Code { get; protected set; }
         public Message Data { get; protected set; }
 
-        public abstract void ProcessUpdate();
         public abstract string DebugString();
         public abstract byte[] BuildUpdate(PlayerSession player);
     }

@@ -33,11 +33,6 @@ namespace spacial_dogfight_protocol.Updates {
 
             return resultBytes;
         }
-
-        public override void ProcessUpdate() {
-            var position = (PositionMessage)Data;
-        }
-
     }
 }
 

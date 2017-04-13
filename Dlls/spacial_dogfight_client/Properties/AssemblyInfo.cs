@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Les informations générales relatives à un assembly dépendent de
 // l'ensemble d'attributs suivant. Changez les valeurs de ces attributs pour modifier les informations
 // associées à un assembly.
-[assembly: AssemblyTitle("spacial_dogfight_server")]
+[assembly: AssemblyTitle("spacial_dogfight_client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("spacial_dogfight_server")]
+[assembly: AssemblyProduct("spacial_dogfight_client")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
-[assembly: Guid("91b0e9bf-d6c8-4f82-b8e0-a772c1948cb4")]
+[assembly: Guid("5e8212b3-b8bc-4d58-baaa-69352d52cbcb")]
 
 // Les informations de version pour un assembly se composent des quatre valeurs suivantes :
 //
