@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShipDriving : MonoBehaviour {
 
+    public GameObject pilotSlot;
+    public GameObject gunnerSlot;
     public float moveSpeed = 5f;
     public float rotationSpeed = 2f;
     public bool useInertie = false;
@@ -17,6 +19,7 @@ public class ShipDriving : MonoBehaviour {
 	void Start () {
         CameraManager.Instance.closeCamera = shipCamera;
         CameraManager.Instance.shipControl = this;
+        CameraManager.Instance.distantCamera.GetComponent<CameraFollowTarget>().target = gameObject;
         _rb2d = GetComponent<Rigidbody2D>();
 	}
 	

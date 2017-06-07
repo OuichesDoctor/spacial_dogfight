@@ -12,18 +12,15 @@ namespace spacial_dogfight_protocol.Updates {
             Category = 1;
             Code = 1;
             Data = new PositionMessage();
+            BroadCasted = false;
         }
 
         public override string DebugString() {
-            return "Received update TestUpdate()";
+            return "Send position : " + ((PositionMessage)Data).x + ":" + ((PositionMessage)Data).y;
         }
 
         public override byte[] BuildUpdate(PlayerSession player) {
             var positionMsg = (PositionMessage)Data;
-            var session = (MyPlayerSession)player;
-            positionMsg.x = session.characterState.x;
-            positionMsg.y = session.characterState.y;
-
             var dataBytes = Data.ReadFields();
             var byteCount = 2 + dataBytes.Length;
             var resultBytes = new byte[byteCount];

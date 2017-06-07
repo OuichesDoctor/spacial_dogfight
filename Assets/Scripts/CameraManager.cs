@@ -17,14 +17,16 @@ public class CameraManager : MonoBehaviour {
             Instance = this;
         else
             DestroyImmediate(this);
-    }
 
-    private void OnEnable() {
         distantCamera = Camera.main;
     }
 
     void Update () {
-        if (Input.GetButtonDown("Fire1")) {
+        if(playerControl == null) {
+            playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
+        }
+
+        if (Input.GetButtonDown("Fire3")) {
             if (distantCamera.enabled) {
                 distantCamera.enabled = false;
                 closeCamera.enabled = true;

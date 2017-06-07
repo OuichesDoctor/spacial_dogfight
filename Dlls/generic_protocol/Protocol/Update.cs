@@ -47,6 +47,7 @@ namespace GameProtocol {
         public int Category { get; protected set; }
         public int Code { get; protected set; }
         public Message Data { get; protected set; }
+        public bool BroadCasted { get; protected set; }
 
         public abstract string DebugString();
         public abstract byte[] BuildUpdate(PlayerSession player);

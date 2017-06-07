@@ -18,7 +18,7 @@ So keep tune for further developments !
 
 ## Plateform & requirements
 
-Made with [Unity 5.5.2f1](https://store.unity.com/download/thank-you?thank-you=personal&os=win&nid=222)
+Made with [Unity 5.6.0f3](https://store.unity.com/download/thank-you?thank-you=personal&os=win&nid=222)
 
 As for now, there's no build, so you need Unity to test the game.
 

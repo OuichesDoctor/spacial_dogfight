@@ -1,5 +1,7 @@
 ﻿using GameProtocol;
+using spacial_dogfight_protocol.Messages;
 using spacial_dogfight_protocol.States;
+using spacial_dogfight_protocol.Updates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,13 @@ using System.Text;
 namespace spacial_dogfight_protocol {
     public class MyPlayerSession : PlayerSession {
 
-        public CharacterState characterState;
+        static private int sNextPlayerID = 1;
+
+        public int playerID;
 
         public MyPlayerSession(IPEndPoint remoteEndPoint) : base(remoteEndPoint) {
-            characterState = new CharacterState(0, 0);
+            playerID = sNextPlayerID;
+            sNextPlayerID++;
         }
 
     }

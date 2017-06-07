@@ -5,7 +5,7 @@ using GameProtocol;
 
 public abstract class NetworkCallback : MonoBehaviour {
 
-    private void Start() {
+    protected void Start() {
         Register();
     }
 

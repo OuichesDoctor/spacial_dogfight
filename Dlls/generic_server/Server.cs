@@ -136,7 +136,7 @@ namespace GameServer {
                 return;
             }
 
-            Console.WriteLine(cmd.DebugString());
+            Console.WriteLine("Received from player " + hashString + " : " + cmd.DebugString());
 
             if (!cmd.Data.WriteFields(receivedBuffer)) {
                 Console.WriteLine("Error when reading parameters");
@@ -146,8 +146,19 @@ namespace GameServer {
             var update = cmd.ProcessCommand(player);
             if(update != Update.None) {
                 var sendBuffer = update.BuildUpdate(player);
-                Console.WriteLine(update.DebugString());
-                SendData(sendBuffer, player.RemoteEndPoint);
+
+                if(update.BroadCasted) {
+                    lock(_playerList) {
+                        foreach(var p in _playerList) {
+                            Console.WriteLine("Send to player " + p.Key + " : " + update.DebugString());
+                            SendData(sendBuffer, p.Value.RemoteEndPoint);
+                        }
+                    }
+                }
+                else {
+                    Console.WriteLine("Send to player " + hashString + " : " + update.DebugString());
+                    SendData(sendBuffer, player.RemoteEndPoint);
+                }
             }
             else {
                 Console.WriteLine("No update to send");

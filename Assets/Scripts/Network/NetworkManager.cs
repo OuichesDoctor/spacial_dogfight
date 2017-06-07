@@ -2,8 +2,10 @@
 using spacial_dogfight_protocol.Commands;
 using spacial_dogfight_protocol.Messages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -28,21 +30,19 @@ public class NetworkManager : MonoBehaviour {
     }
     static private NetworkManager _instance;
 
-    public string ServerIPAddress;
     public int ServerPort;
-
     public string ServerAddress { get; private set; }
     public int Port { get; private set; }
     public ClientStatus Status { get; private set; }
     public string IpAddress { get; set; }
+    public int playerID;
+    public Dictionary<int,int> playerSlots;
 
     public Dictionary<int, List<NetworkCallback>> updateCallbacks;
 
     private UdpClient _client;
-    private UdpClient _broadcastClient;
+    private List<Update> _updateToProcess;
     protected Process _serverProcess;
-
-    private bool commandSend = false;
 
     private void OnDestroy() {
         if(_serverProcess != null)
@@ -50,28 +50,36 @@ public class NetworkManager : MonoBehaviour {
     }
 
     public void StartAsServer() {
+        var startTime = Time.realtimeSinceStartup;
         _serverProcess = new Process();
-        _serverProcess.StartInfo.FileName = Application.dataPath + "\\Externals\\Server\\spacial_dogfight_server.exe";
+        _serverProcess.StartInfo.FileName = Application.dataPath + "\\StreamingAssets\\Server\\spacial_dogfight_server.exe";
+        _serverProcess.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+
         if (!_serverProcess.Start())
             UnityEngine.Debug.Log("Cannot start server");
         else
             UnityEngine.Debug.Log("Server launched");
 
+        while(Time.realtimeSinceStartup < startTime + 5);
+
         Initialize("192.168.0.19", this.ServerPort);
-        SceneManager.LoadScene("Main");
-        //GetComponent<CameraManager>().enabled = true;
         Connect();
     }
 
     public void StartAsClient() {
-        Initialize(ServerAddress, this.ServerPort);
+        Initialize(IpAddress, this.ServerPort);
         Connect();
     }
 
-    public NetworkManager() {
+    public void Awake() {
+        IpAddress = "192.168.0.19";
+        Application.runInBackground = true;
+        _updateToProcess = new List<Update>();
+        playerSlots = new Dictionary<int, int>();
         updateCallbacks = new Dictionary<int, List<NetworkCallback>>();
         Status = ClientStatus.NotInitialized;
-        _instance = this;
+        if(_instance == null)
+            _instance = this;
     }
 
     public void Initialize(string IPaddress, int port) {
@@ -104,26 +112,40 @@ public class NetworkManager : MonoBehaviour {
         _client = new UdpClient();
         _client.EnableBroadcast = true;
         _client.Connect(IPAddress.Parse(ServerAddress), Port);
-        //_broadcastClient = new UdpClient();
-        //_broadcastClient.EnableBroadcast = true;
-        //_broadcastClient.Connect(new IPEndPoint(IPAddress.Parse("192.168.0.255"), Port));
         Status = ClientStatus.Connected;
 
-        if (Status != ClientStatus.Disconnecting) {
-            UnityEngine.Debug.Log("Connected");
-            _client.BeginReceive(new AsyncCallback(ReceiveCallback), null);
-            //_broadcastClient.BeginReceive(new AsyncCallback(BroadCastCallback), null);
+        StartCoroutine(ProcessUpdates());
+        _client.BeginReceive(new AsyncCallback(ReceiveCallback), null);
+
+        while(!_client.Client.IsBound) {
+            UnityEngine.Debug.Log("Connecting ...");   
         }
-        else {
-            //_broadcastClient.Close();
-            _client.Close();
-            Status = ClientStatus.Disconnected;
+
+        var cmd = new PingCommand();
+        SendCommand(cmd);
+    }
+
+    IEnumerator ProcessUpdates() {
+        while(Status != ClientStatus.Disconnecting) {
+            if(_updateToProcess.Count > 0) {
+                var current = _updateToProcess.First();
+                if (current == null)
+                    continue;
+                var opcode = current.Category << 8 | current.Code;
+                if(updateCallbacks.ContainsKey(opcode)) {
+                    updateCallbacks[opcode].ForEach(x => x.ProcessUpdate(current));
+                }
+
+                _updateToProcess.Remove(current);
+            }
+
+            yield return null;
         }
     }
 
     public void ReceiveCallback(IAsyncResult result) {
-        UnityEngine.Debug.Log("Receive");
         IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.19"), Port);
+
         var receivedBuffer = _client.EndReceive(result, ref localEndPoint);
         Update update = GameProtocol.Update.GetUpdate(ref receivedBuffer);
         if (update == null) {
@@ -131,51 +153,17 @@ public class NetworkManager : MonoBehaviour {
             return;
         }
 
-        UnityEngine.Debug.Log(update.DebugString());
-
         if (!update.Data.WriteFields(receivedBuffer)) {
             UnityEngine.Debug.Log("Error when reading parameters");
             return;
         }
 
-        var opcode = update.Category << 8 | update.Code;
-        updateCallbacks[opcode].ForEach(x => x.ProcessUpdate(update));
+        _updateToProcess.Add(update);
 
         if (Status != ClientStatus.Disconnecting) {
             _client.BeginReceive(new AsyncCallback(ReceiveCallback), null);
         }
         else {
-            _broadcastClient.Close();
-            _client.Close();
-            Status = ClientStatus.Disconnected;
-        }
-    }
-
-    public void BroadCastCallback(IAsyncResult result) {
-        UnityEngine.Debug.Log("Receive Broadcast");
-        IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, Port);
-        var receivedBuffer = _broadcastClient.EndReceive(result, ref localEndPoint);
-        Update update = GameProtocol.Update.GetUpdate(ref receivedBuffer);
-        if (update == null) {
-            UnityEngine.Debug.Log("Update Unrecognized.");
-            return;
-        }
-
-        UnityEngine.Debug.Log(update.DebugString());
-
-        if (!update.Data.WriteFields(receivedBuffer)) {
-            UnityEngine.Debug.Log("Error when reading parameters");
-            return;
-        }
-
-        var opcode = update.Category << 8 | update.Code;
-        updateCallbacks[opcode].ForEach(x => x.ProcessUpdate(update));
-
-        if (Status != ClientStatus.Disconnecting) {
-            _broadcastClient.BeginReceive(new AsyncCallback(ReceiveCallback), null);
-        }
-        else {
-            _broadcastClient.Close();
             _client.Close();
             Status = ClientStatus.Disconnected;
         }
