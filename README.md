@@ -18,8 +18,7 @@ So keep tune for further developments !
 
 ## Plateform & requirements
 
-Made with [Unity 5.6.0f3](https://store.unity.com/download/thank-you?thank-you=personal&os=win&nid=222)
+Made with [Unity 5.6.1f1](https://store.unity.com/download/thank-you?thank-you=personal&os=win&nid=292)
 
-As for now, there's no build, so you need Unity to test the game.
-
-I'll see for a way to share stable builds one day.
+You can find the lastest build here : [Cloud build](https://developer.cloud.unity3d.com/share/by2jIP4j8G/)
+Remember that this is supposed to be an online game, so for better experience use one device by instance of the game.
