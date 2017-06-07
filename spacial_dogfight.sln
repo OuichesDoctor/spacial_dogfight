@@ -3,16 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spacial_dogfight", "spacial_dogfight.csproj", "{F2CD7E68-4EE4-D35B-CA7B-4C8D5A9E5E20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "generic_protocol", "Dlls\generic_protocol\generic_protocol.csproj", "{C0C6FE89-FAA0-43DA-82EF-780750F929CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "generic_server", "Dlls\generic_server\generic_server.csproj", "{0F63A481-EDC0-4912-9234-E9FD0EB037E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spacial_dogfight_server", "Dlls\spacial_dogfight_server\spacial_dogfight_server.csproj", "{91B0E9BF-D6C8-4F82-B8E0-A772C1948CB4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spacial_dogfight_protocol", "Dlls\spacial_dogfight_protocol\spacial_dogfight_protocol.csproj", "{44CE3308-4584-466C-84F9-8EDD5E542717}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spacial_dogfight_client", "Dlls\spacial_dogfight_client\spacial_dogfight_client.csproj", "{5E8212B3-B8BC-4D58-BAAA-69352D52CBCB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,26 +13,6 @@ Global
 		{F2CD7E68-4EE4-D35B-CA7B-4C8D5A9E5E20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2CD7E68-4EE4-D35B-CA7B-4C8D5A9E5E20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2CD7E68-4EE4-D35B-CA7B-4C8D5A9E5E20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0C6FE89-FAA0-43DA-82EF-780750F929CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0C6FE89-FAA0-43DA-82EF-780750F929CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0C6FE89-FAA0-43DA-82EF-780750F929CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0C6FE89-FAA0-43DA-82EF-780750F929CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F63A481-EDC0-4912-9234-E9FD0EB037E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F63A481-EDC0-4912-9234-E9FD0EB037E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F63A481-EDC0-4912-9234-E9FD0EB037E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F63A481-EDC0-4912-9234-E9FD0EB037E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91B0E9BF-D6C8-4F82-B8E0-A772C1948CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91B0E9BF-D6C8-4F82-B8E0-A772C1948CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91B0E9BF-D6C8-4F82-B8E0-A772C1948CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91B0E9BF-D6C8-4F82-B8E0-A772C1948CB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44CE3308-4584-466C-84F9-8EDD5E542717}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44CE3308-4584-466C-84F9-8EDD5E542717}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44CE3308-4584-466C-84F9-8EDD5E542717}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44CE3308-4584-466C-84F9-8EDD5E542717}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E8212B3-B8BC-4D58-BAAA-69352D52CBCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E8212B3-B8BC-4D58-BAAA-69352D52CBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E8212B3-B8BC-4D58-BAAA-69352D52CBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E8212B3-B8BC-4D58-BAAA-69352D52CBCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
