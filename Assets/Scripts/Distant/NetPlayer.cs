@@ -61,7 +61,7 @@ public class NetPlayer : AbstractPlayer {
 
             var directionMove = new Vector2(xAxis, yAxis).normalized;
 
-            Vector2 directionLook;
+            Vector2 directionLook = Vector2.zero;
             if (usingJoypad) {
                 var xLookAt = Input.GetAxis("HorizontalZ");
                 var yLookAt = Input.GetAxis("VerticalZ");
@@ -71,13 +71,14 @@ public class NetPlayer : AbstractPlayer {
                     directionLook = Vector2.zero;
             }
             else {
-
                 var mousePos = Input.mousePosition;
-                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                if(Camera.main != null) {
+                    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-                directionLook = (Vector2)mousePos - (Vector2)gameObject.transform.position;
-                if (directionLook.magnitude < 0.5)
-                    directionLook = Vector2.zero;
+                    directionLook = (Vector2)mousePos - (Vector2)gameObject.transform.position;
+                    if (directionLook.magnitude < 0.5)
+                        directionLook = Vector2.zero;
+                }
             }
 
             CmdSendDirection(directionMove, directionLook);
@@ -110,7 +111,7 @@ public class NetPlayer : AbstractPlayer {
 
         if (lookDirection.magnitude >= .5) {
             var currentTransform = target.gameObject.transform;
-            var rotatedLookDirection = Quaternion.Euler(0, 0, currentRotation.eulerAngles.z + 90) * lookDirection;
+            var rotatedLookDirection = Quaternion.Euler(0, 0, gameObject.transform.rotation.eulerAngles.z - 90) * lookDirection;
             currentTransform.position = gameObject.transform.position + (Vector3)rotatedLookDirection.normalized;
         }
 
