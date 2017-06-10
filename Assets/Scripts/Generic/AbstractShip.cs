@@ -17,6 +17,8 @@ public abstract class AbstractShip : NetworkBehaviour {
     public float rotationSpeed = 120f;
     public float turretRotationSpeed = 180f;
     public float fireRate = .5f;
+    public Vector2 turretLook = Vector2.zero;
+
 
     protected float _nextShot = 0f;
 
@@ -24,5 +26,5 @@ public abstract class AbstractShip : NetworkBehaviour {
     public abstract void SetLookDirection(Vector2 vector);
     public abstract void SetTurretLook(Vector2 vector);
     public abstract void FixedUpdate();
-    public abstract void Fire();
+    public abstract void Fire(Vector2 target = default(Vector2));
 }

@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour {
     public float moveSpeed = 5f;
     public float lifeSpan = 2f;
     public Vector2 direction;
-    public GameObject myShip;
+    public int myShipId;
     public GameObject explosionPrefab;
 
     private float _programmedDeath;
@@ -26,7 +26,8 @@ public class Projectile : MonoBehaviour {
 
     void OnPOCollisionEnter(object[] result) {
         var coll = (Collider2D)result[1];
-        if (coll.gameObject == myShip)
+        var netShip = coll.gameObject.GetComponent<NetShip>();
+        if (netShip != null && netShip.shipId == myShipId)
             return;
 
         if (coll.gameObject.layer == LayerMask.NameToLayer("ships") || coll.gameObject.layer == LayerMask.NameToLayer("rooms")) {

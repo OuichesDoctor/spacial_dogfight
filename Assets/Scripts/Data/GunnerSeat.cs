@@ -7,17 +7,16 @@ using UnityEngine.Networking;
 public class GunnerSeat : Seat {
 
     public override void ProcessDirection(Vector2 direction) {
-        if (direction.magnitude > 0.5f) {
-            ship.SetTurretLook(direction);
-            ship.Fire();
-        }
+        
     }
 
     public override void ProcessLook(Vector2 look) {
+        ship.SetTurretLook(look);
     }
 
     public override void ProcessFire() {
-
+        var mousePos = Input.mousePosition;
+        mousePos = ship.shipCamera.ScreenToWorldPoint(mousePos);
+        ship.Fire(mousePos);
     }
-
 }

@@ -24,9 +24,9 @@ public class NetShip : AbstractShip {
     [SyncVar]
     public float health = 100;
 
-    public Vector2 turretLook = Vector2.zero;
     public List<GameObject> startPos = new List<GameObject>();
     public ParticleSystem shipBoom;
+    public ShootMode shootSystem;
 
     //protected PhysicObject _po;
     protected Rigidbody2D _rb2D;
@@ -40,9 +40,10 @@ public class NetShip : AbstractShip {
         NetShip.ships.Insert(shipId, this);
         //_po = GetComponent<PhysicObject>();
         _rb2D = GetComponent<Rigidbody2D>();
+        shootSystem = GetComponent<ShootMode>();
     }
 
-    public override void Fire() {
+    public override void Fire(Vector2 target) {
         if (!isServer)
             return;
 
@@ -50,35 +51,7 @@ public class NetShip : AbstractShip {
         if (currentTime < _nextShot)
             return;
 
-        var currentX = turretLook.x;
-        var currentY = turretLook.y;
-        var absX = Mathf.Abs(currentX);
-        var absY = Mathf.Abs(currentY);
-
-        GameObject[] cannons;
-        if (absX > absY) {
-            if (currentX > 0) {
-                cannons = rightTurrets;
-            }
-            else {
-                cannons = leftTurrets;
-            }
-        }
-        else {
-            if (currentY > 0) {
-                cannons = frontTurrets;
-            }
-            else {
-                cannons = backTurrets;
-            }
-        }
-
-        foreach (var go in cannons) {
-            var proj = GameObject.Instantiate(bullet, go.transform.position + go.transform.up * 1, go.transform.rotation);
-            proj.GetComponent<Projectile>().myShip = gameObject;
-            NetworkServer.Spawn(proj);
-        }
-
+        shootSystem.DoShoot(this, target);
         _nextShot = currentTime + fireRate;
     }
 
@@ -142,8 +115,9 @@ public class NetShip : AbstractShip {
         moveDirection = vector;
     }
 
-    public override void SetTurretLook(Vector2 vector) {
-        turretLook = vector;
+    public override void SetTurretLook(Vector2 position) {
+        turretLook = position;
+        shootSystem.ProcessLookDirection(this);
     }
 
     public GameObject GetSpawnPoint() {

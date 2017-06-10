@@ -61,27 +61,24 @@ public class NetPlayer : AbstractPlayer {
 
             var directionMove = new Vector2(xAxis, yAxis).normalized;
 
-            Vector2 directionLook = Vector2.zero;
+            Vector2 positionLook = Vector2.zero;
             if (usingJoypad) {
                 var xLookAt = Input.GetAxis("HorizontalZ");
                 var yLookAt = Input.GetAxis("VerticalZ");
 
-                directionLook = new Vector2(xLookAt, yLookAt);
-                if (directionLook.magnitude < 0.5)
-                    directionLook = Vector2.zero;
+                positionLook = new Vector2(xLookAt, yLookAt);
+                if (positionLook.magnitude < 0.5)
+                    positionLook = Vector2.zero;
             }
             else {
                 var mousePos = Input.mousePosition;
-                if(Camera.main != null) {
-                    mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-                    directionLook = (Vector2)mousePos - (Vector2)gameObject.transform.position;
-                    if (directionLook.magnitude < 0.5)
-                        directionLook = Vector2.zero;
+                if(playerCamera != null) {
+                    mousePos = playerCamera.ScreenToWorldPoint(mousePos);
+                    positionLook = (Vector2)mousePos;
                 }
             }
 
-            CmdSendDirection(directionMove, directionLook);
+            CmdSendDirection(directionMove, positionLook);
 
             if (Input.GetButtonDown("Fire1")) {
                 CmdFire1();
@@ -164,14 +161,14 @@ public class NetPlayer : AbstractPlayer {
     }
 
     [Command]
-    void CmdSendDirection(Vector2 moveDirection, Vector2 lookDirection) {
+    void CmdSendDirection(Vector2 moveDirection, Vector2 lookPosition) {
         if (_mySeat != Seat.None) {
             _mySeat.ProcessDirection(moveDirection);
-            _mySeat.ProcessLook(lookDirection);
+            _mySeat.ProcessLook(lookPosition);
         }
         else {
             this.moveDirection = moveDirection;
-            this.lookDirection = lookDirection;
+            this.lookDirection = lookPosition;
         }
     }
 

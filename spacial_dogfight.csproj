@@ -82,9 +82,13 @@
     <Compile Include="Assets\DebugCollision.cs" />
     <Compile Include="Assets\DisplayPost.cs" />
     <Compile Include="Assets\NextParticleSystem.cs" />
+    <Compile Include="Assets\Scripts\Data\Cannon.cs" />
     <Compile Include="Assets\Scripts\Data\GunnerSeat.cs" />
     <Compile Include="Assets\Scripts\Data\PilotSeat.cs" />
     <Compile Include="Assets\Scripts\Data\Seat.cs" />
+    <Compile Include="Assets\Scripts\Data\ShootModes\LateralizedShoot.cs" />
+    <Compile Include="Assets\Scripts\Data\ShootModes\ShootMode.cs" />
+    <Compile Include="Assets\Scripts\Data\ShootModes\TargetedShoot.cs" />
     <Compile Include="Assets\Scripts\Distant\LobbyPlayer.cs" />
     <Compile Include="Assets\Scripts\Distant\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Distant\NetPlayer.cs" />

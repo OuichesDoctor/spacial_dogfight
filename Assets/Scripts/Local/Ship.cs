@@ -7,9 +7,8 @@ public class Ship : AbstractShip {
 
     public Vector2 moveDirection = Vector2.zero;
     public Vector2 lookDirection = Vector2.zero;
-    public Vector2 turretLook = Vector2.zero;
 
-    public override void Fire() {
+    public override void Fire(Vector2 target) {
         var currentTime = Time.realtimeSinceStartup;
         if (currentTime < _nextShot)
             return;
